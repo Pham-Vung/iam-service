@@ -24,3 +24,9 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
