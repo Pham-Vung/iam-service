@@ -15,11 +15,11 @@ public abstract class BaseSearchRequest {
 
     private String keyword;
 
-    @Min(value = 1, message = "pageIndex must be greater than or equal to 1")
+    @Min(value = 1, message = "pageIndex phải lớn hơn hoặc bằng 1")
     private Integer pageIndex = DEFAULT_PAGE_INDEX;
 
-    @Min(value = 1, message = "pageSize must be greater than or equal to 1")
-    @Max(value = MAX_PAGE_SIZE, message = "pageSize must be less than or equal to 100")
+    @Min(value = 1, message = "pageSize phải lớn hơn hoặc bằng 1")
+    @Max(value = MAX_PAGE_SIZE, message = "pageSize phải nhỏ hơn hoặc bằng 100")
     private Integer pageSize = DEFAULT_PAGE_SIZE;
 
     public int getPageNumber() {

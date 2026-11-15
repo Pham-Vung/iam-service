@@ -25,15 +25,15 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Transactional
     public IssuedRefreshToken issue(UUID userId, UUID familyId) {
         if (userId == null) {
-            throw new IllegalArgumentException("User ID is required");
+            throw new IllegalArgumentException("ID người dùng không được để trống");
         }
         if (familyId == null) {
-            throw new IllegalArgumentException("Family ID is required");
+            throw new IllegalArgumentException("ID nhóm token không được để trống");
         }
 
         Duration expiration = refreshTokenProperties.getExpiration();
         if (expiration.isZero() || expiration.isNegative()) {
-            throw new IllegalStateException("Refresh token expiration must be positive");
+            throw new IllegalStateException("Thời hạn refresh token phải lớn hơn 0");
         }
 
         String rawToken = refreshTokenGenerator.generate();

@@ -20,7 +20,7 @@ public class JwtConfig {
     public SecretKey jwtSigningKey(JwtProperties properties) {
         byte[] keyBytes = properties.getSecret().getBytes(StandardCharsets.UTF_8);
         if (keyBytes.length < MINIMUM_HMAC_KEY_BYTES) {
-            throw new IllegalStateException("JWT secret must contain at least 32 bytes");
+            throw new IllegalStateException("Khóa bí mật JWT phải có ít nhất 32 byte");
         }
         return Keys.hmacShaKeyFor(keyBytes);
     }

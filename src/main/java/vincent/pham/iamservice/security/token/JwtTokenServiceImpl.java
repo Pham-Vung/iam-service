@@ -38,7 +38,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     public AccessToken generateAccessToken(CustomUserDetails principal) {
         Duration expiration = jwtProperties.getAccessTokenExpiration();
         if (expiration.isZero() || expiration.isNegative()) {
-            throw new IllegalStateException("Access token expiration must be positive");
+            throw new IllegalStateException("Thời hạn access token phải lớn hơn 0");
         }
 
         Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
@@ -63,7 +63,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     @Override
     public AccessTokenClaims parseAndValidate(String token) {
         if (!StringUtils.hasText(token)) {
-            throw new IllegalArgumentException("Access token is required");
+            throw new IllegalArgumentException("Access token không được để trống");
         }
 
         Claims claims = Jwts.parser()

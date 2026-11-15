@@ -14,6 +14,6 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "app.refresh-token")
 public class RefreshTokenProperties {
 
-    @NotNull
+    @NotNull(message = "Thời hạn refresh token không được để trống")
     private Duration expiration = Duration.ofDays(30);
 }
