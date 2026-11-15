@@ -15,7 +15,7 @@ public class RefreshTokenHasher {
 
     public String hash(String rawToken) {
         if (!StringUtils.hasText(rawToken)) {
-            throw new IllegalArgumentException("Refresh token is required");
+            throw new IllegalArgumentException("Refresh token không được để trống");
         }
 
         try {
@@ -23,7 +23,7 @@ public class RefreshTokenHasher {
             byte[] hash = digest.digest(rawToken.getBytes(StandardCharsets.UTF_8));
             return HexFormat.of().formatHex(hash);
         } catch (NoSuchAlgorithmException exception) {
-            throw new IllegalStateException("SHA-256 is not available", exception);
+            throw new IllegalStateException("Thuật toán SHA-256 không khả dụng", exception);
         }
     }
 }

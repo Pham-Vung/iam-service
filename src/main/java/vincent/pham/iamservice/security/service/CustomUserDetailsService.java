@@ -26,7 +26,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         UserEntity user = userRepository
                 .findByUsernameIgnoreCaseAndIsDeletedFalse(normalizedUsername)
-                .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "Tên đăng nhập hoặc mật khẩu không hợp lệ"
+                ));
 
         UserAuthorization authorization = userAuthorizationService.getByUserId(user.getId());
 

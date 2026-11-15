@@ -9,6 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +48,24 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = ErrorCode.FORBIDDEN;
 
         log.warn("Access denied: {}", exception.getMessage());
+
+        return ResponseEntity.status(errorCode.getHttpStatus())
+                .body(errorResponseFactory.fromErrorCode(errorCode, locale));
+    }
+
+    @ExceptionHandler({
+            BadCredentialsException.class,
+            DisabledException.class,
+            LockedException.class,
+            UsernameNotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> handleInvalidCredentials(
+            AuthenticationException exception,
+            Locale locale
+    ) {
+        ErrorCode errorCode = ErrorCode.INVALID_CREDENTIALS;
+
+        log.warn("Authentication failed: {}", exception.getClass().getSimpleName());
 
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(errorResponseFactory.fromErrorCode(errorCode, locale));

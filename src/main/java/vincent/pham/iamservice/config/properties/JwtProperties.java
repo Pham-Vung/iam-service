@@ -16,13 +16,13 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "app.jwt")
 public class JwtProperties {
 
-    @NotBlank
-    @Size(min = 32)
+    @NotBlank(message = "Khóa bí mật JWT không được để trống")
+    @Size(min = 32, message = "Khóa bí mật JWT phải có ít nhất 32 ký tự")
     private String secret;
 
-    @NotBlank
+    @NotBlank(message = "JWT issuer không được để trống")
     private String issuer = "iam-service";
 
-    @NotNull
+    @NotNull(message = "Thời hạn access token không được để trống")
     private Duration accessTokenExpiration = Duration.ofMinutes(15);
 }
