@@ -1,24 +1,29 @@
 package vincent.pham.iamservice.repository;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import vincent.pham.iamservice.entity.UserRoleEntity;
 
 public interface UserRoleRepository extends JpaRepository<UserRoleEntity, UUID> {
 
-    Optional<UserRoleEntity> findByIdAndIsDeletedFalse(UUID id);
-
-    Optional<UserRoleEntity> findByUserIdAndRoleIdAndIsDeletedFalse(
-            UUID userId,
-            UUID roleId
-    );
-
-    boolean existsByUserIdAndRoleIdAndIsDeletedFalse(UUID userId, UUID roleId);
-
-    List<UserRoleEntity> findAllByUserIdAndIsDeletedFalse(UUID userId);
-
-    List<UserRoleEntity> findAllByRoleIdAndIsDeletedFalse(UUID roleId);
+    @Query(value = """
+            SELECT EXISTS (
+                SELECT 1
+                  FROM users u
+                  JOIN user_roles ur
+                    ON ur.user_id = u.id
+                   AND ur.is_deleted = FALSE
+                  JOIN roles r
+                    ON r.id = ur.role_id
+                   AND r.is_deleted = FALSE
+                 WHERE LOWER(r.code) = LOWER(:roleCode)
+                   AND r.status = 'ACTIVE'
+                   AND u.status = 'ACTIVE'
+                   AND u.is_deleted = FALSE
+            )
+            """, nativeQuery = true)
+    boolean existsActiveUserByRoleCode(@Param("roleCode") String roleCode);
 }

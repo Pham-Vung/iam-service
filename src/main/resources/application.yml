@@ -34,3 +34,9 @@ app:
     access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION:15m}
   refresh-token:
     expiration: ${REFRESH_TOKEN_EXPIRATION:30d}
+  bootstrap-admin:
+    enabled: ${BOOTSTRAP_ADMIN_ENABLED:false}
+    username: ${BOOTSTRAP_ADMIN_USERNAME:}
+    password: ${BOOTSTRAP_ADMIN_PASSWORD:}
+    email: ${BOOTSTRAP_ADMIN_EMAIL:}
+    full-name: ${BOOTSTRAP_ADMIN_FULL_NAME:Quản trị viên hệ thống}
